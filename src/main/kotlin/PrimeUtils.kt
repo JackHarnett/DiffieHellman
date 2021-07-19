@@ -6,14 +6,14 @@ object PrimeUtils {
     /**
      * Check if a number is prime by verifying that no lower values divide it
      */
-    fun isPrime(num : Long) = (2 until num).none { num % it == 0L }
+    fun Long.isPrime() = (2 until this).none { this % it == 0L }
 
     /**
      * Sequence that generates prime numbers on-demand by sieving
      */
     val primes = sequence {
         generateSequence(1L) { it + 1L }
-            .filter { it > 1 && isPrime(it) }
+            .filter { it > 1 && it.isPrime() }
             .forEach { yield(it) }
     }
 
@@ -41,6 +41,5 @@ object PrimeUtils {
      */
     fun relativePrime(first : Long, second : Long) =
         (primeFactorDecomposition(first).toSet() intersect primeFactorDecomposition(second)).isEmpty()
-
 
 }
