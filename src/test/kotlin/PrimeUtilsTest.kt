@@ -1,3 +1,4 @@
+import PrimeUtils.isPrime
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -20,14 +21,14 @@ internal class PrimeUtilsTest {
          * Verify that prime numbers are correctly identified - no false negatives
          */
         knownPrimes.forEach {
-            assertTrue("Failed to determine that $it is prime.") { PrimeUtils.isPrime(it) }
+            assertTrue("Failed to determine that $it is prime.") { it.isPrime() }
         }
 
         /**
          * Verify that non-prime numbers are not misidentified as prime - no false positives
          */
         notPrimes.forEach {
-            assertFalse("Incorrectly determined $it as prime.") { PrimeUtils.isPrime(it) }
+            assertFalse("Incorrectly determined $it as prime.") { it.isPrime() }
         }
     }
 

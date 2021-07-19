@@ -6,7 +6,7 @@ object PrimeUtils {
     /**
      * Check if a number is prime by verifying that no lower values divide it
      */
-    fun Long.isPrime() = (2 until this).none { this % it == 0L }
+    fun Number.isPrime() = (2L until this.toLong()).none { this.toLong() % it == 0L }
 
     /**
      * Sequence that generates prime numbers on-demand by sieving
