@@ -6,15 +6,16 @@ import kotlin.test.assertTrue
 
 internal class PrimeUtilsTest {
 
+    val knownPrimes = listOf<Long>(
+        2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 47, 53, 59, 67, 71, 83, 89, 101, 107, 109, 113, 127, 131,
+        137, 139, 149, 157, 167, 179, 181, 191, 197, 199, 211, 227, 233, 239, 251, 257, 263, 269, 281, 293, 307,
+        91193, 93719, 93911, 99371, 193939, 199933, 319993, 331999, 391939, 393919, 919393, 933199, 939193, 939391,
+    )
+
+    val notPrimes = listOf<Long>(12, 90, 100, 9, 4, 100000, 222, 268, 21)
+
     @Test
     fun isPrime() {
-        val knownPrimes = listOf<Long>(
-            2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 47, 53, 59, 67, 71, 83, 89, 101, 107, 109, 113, 127, 131,
-            137, 139, 149, 157, 167, 179, 181, 191, 197, 199, 211, 227, 233, 239, 251, 257, 263, 269, 281, 293, 307,
-            91193, 93719, 93911, 99371, 193939, 199933, 319993, 331999, 391939, 393919, 919393, 933199, 939193, 939391,
-        )
-
-        val notPrimes = listOf<Long>(12, 90, 100, 9, 4, 100000, 222, 268, 21)
 
 
         /**
@@ -97,5 +98,28 @@ internal class PrimeUtilsTest {
         notRelPrime.forEach {
             assertFalse("Incorrectly determined $it to be coprime.") { PrimeUtils.relativePrime(it.key.toLong(), it.value.toLong()) }
         }
+    }
+
+    @Test
+    fun totient() {
+
+        val knownTotients = mapOf(
+            5 to 4, 8 to 4, 11 to 10, 25 to 20, 100 to 40
+        )
+
+        /**
+         * Verify that prime numbers have the totient n - 1
+         */
+        knownPrimes.forEach {
+            assertEquals(it - 1, PrimeUtils.totient(it), "Totient of prime $it should be ${it - 1}.")
+        }
+
+        /**
+         * Verify that non-prime numbers have the correct totient value
+         */
+        knownTotients.forEach { key, value ->
+            assertEquals(value.toLong(), PrimeUtils.totient(key.toLong()), "Totient of $key should equal $value")
+        }
+
     }
 }

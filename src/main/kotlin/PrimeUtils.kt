@@ -6,14 +6,14 @@ object PrimeUtils {
     /**
      * Check if a number is prime by verifying that no lower values divide it
      */
-    fun Number.isPrime() = (2L until this.toLong()).none { this.toLong() % it == 0L }
+    fun Number.isPrime() = this.toLong() > 1L && (2L until this.toLong()).none { this.toLong() % it == 0L }
 
     /**
      * Sequence that generates prime numbers on-demand by sieving
      */
     val primes = sequence {
         generateSequence(1L) { it + 1L }
-            .filter { it > 1 && it.isPrime() }
+            .filter { it.isPrime() }
             .forEach { yield(it) }
     }
 
@@ -41,5 +41,20 @@ object PrimeUtils {
      */
     fun relativePrime(first : Long, second : Long) =
         (primeFactorDecomposition(first).toSet() intersect primeFactorDecomposition(second)).isEmpty()
+
+    fun totient(num : Long): Long {
+
+        // The simple case when n is prime
+        if(num.isPrime()) return num-1
+
+        // Get the unique prime factors as doubles
+        val factors = primeFactorDecomposition(num).toSet().map { it.toDouble() }
+
+        // Euler's totient formula, sieving out smaller numbers with common prime factors
+        var totient = num.toDouble()
+        factors.forEach { totient *= (1.0 - 1.0/it) }
+
+        return totient.toLong()
+    }
 
 }
