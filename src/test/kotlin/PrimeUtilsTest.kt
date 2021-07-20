@@ -1,5 +1,6 @@
 import PrimeUtils.isPrime
 import org.junit.Test
+import kotlin.system.measureTimeMillis
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -13,38 +14,6 @@ internal class PrimeUtilsTest {
     )
 
     val notPrimes = listOf<Long>(12, 90, 100, 9, 4, 100000, 222, 268, 21)
-
-    @Test
-    fun isPrime() {
-
-
-        /**
-         * Verify that prime numbers are correctly identified - no false negatives
-         */
-        knownPrimes.forEach {
-            assertTrue("Failed to determine that $it is prime.") { it.isPrime() }
-        }
-
-        /**
-         * Verify that non-prime numbers are not misidentified as prime - no false positives
-         */
-        notPrimes.forEach {
-            assertFalse("Incorrectly determined $it as prime.") { it.isPrime() }
-        }
-    }
-
-    @Test
-    fun getPrimes() {
-
-        /**
-         * Verify that the prime number sequence generates correctly the first 10 primes
-         */
-        assertEquals(
-            listOf<Long>(2, 3, 5, 7, 11, 13, 17, 19, 23, 29),
-            PrimeUtils.primes.take(10).toList(),
-            "First 10 generated prime numbers are not correct"
-        )
-    }
 
     @Test
     fun primeFactorDecomposition() {
@@ -122,4 +91,5 @@ internal class PrimeUtilsTest {
         }
 
     }
+
 }

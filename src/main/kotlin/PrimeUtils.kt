@@ -1,3 +1,4 @@
+
 /**
  * Utility methods for handling prime numbers
  */
@@ -9,22 +10,13 @@ object PrimeUtils {
     fun Number.isPrime() = this.toLong() > 1L && (2L until this.toLong()).none { this.toLong() % it == 0L }
 
     /**
-     * Sequence that generates prime numbers on-demand by sieving
-     */
-    val primes = sequence {
-        generateSequence(1L) { it + 1L }
-            .filter { it.isPrime() }
-            .forEach { yield(it) }
-    }
-
-    /**
      * Finds the unique prime number factorisation for the provided number
      */
     fun primeFactorDecomposition(num : Long): MutableList<Long> {
         val factors = ArrayList<Long>()
         var total = num
 
-        primes.takeWhile { total > 1L }
+        PrimeCache.takePrimesWhile { total > 1L }
             .filter { total % it == 0L }
             .forEach {
                 do {
@@ -42,6 +34,9 @@ object PrimeUtils {
     fun relativePrime(first : Long, second : Long) =
         (primeFactorDecomposition(first).toSet() intersect primeFactorDecomposition(second)).isEmpty()
 
+    /**
+     * Euler's totient function that counts the number of smaller relative primes
+     */
     fun totient(num : Long): Long {
 
         // The simple case when n is prime
